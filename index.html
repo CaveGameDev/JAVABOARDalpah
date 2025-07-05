@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>BoardDemo - CheerpJ 4.2 (Java 17)</title>
+  <script src="https://cjrtnc.leaningtech.com/loader.js"></script>
+</head>
+<body>
+  <h2>Launching BoardDemo (Java 17)...</h2>
+
+  <script>
+    // Initialize CheerpJ runtime
+    cheerpjInit();
+
+    // List of all JARs (main app + dependencies)
+    const jars = [
+      'BoardDemo.jar',
+      'libs/slf4j-api-1.7.36.jar',
+      'libs/slf4j-simple-1.7.36.jar',
+      'libs/Java-WebSocket-1.5.3.jar'
+    ];
+
+    // Wait for CheerpJ to load
+    window.addEventListener('load', async () => {
+      try {
+        // Preload all jars before running the main class
+        await cheerpjPreloadJars(jars);
+
+        // Run the Java main class with Java 17 bytecode support
+        cjRunMain('com.minedev.Main', jars);
+      } catch (e) {
+        console.error('Failed to launch BoardDemo:', e);
+      }
+    });
+  </script>
+</body>
+</html>
