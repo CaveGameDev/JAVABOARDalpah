@@ -4,34 +4,54 @@
   <meta charset="UTF-8">
   <title>BoardDemo - CheerpJ 4.2 (Java 17)</title>
   <script src="https://cjrtnc.leaningtech.com/loader.js"></script>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+    }
+    #cj-display {
+      width: 856px;
+      height: 480px;
+      border: 2px solid #444;
+      background: black;
+    }
+  </style>
 </head>
 <body>
   <h2>Launching BoardDemo (Java 17)...</h2>
+  <div id="cj-display"></div>
 
   <script>
-    // Initialize CheerpJ runtime
-    cheerpjInit();
-
-    // List of all JARs (main app + dependencies)
-    const jars = [
-      'BoardDemo.jar',
-      'libs/slf4j-api-1.7.36.jar',
-      'libs/slf4j-simple-1.7.36.jar',
-      'libs/Java-WebSocket-1.5.3.jar'
-    ];
-
-    // Wait for CheerpJ to load
+    // Delay logic until CheerpJ is fully ready
     window.addEventListener('load', async () => {
-      try {
-        // Preload all jars before running the main class
-        await cheerpjPreloadJars(jars);
+      // Wait for CheerpJ to load
+      const cheerpjLoader = await cheerpjInit();
 
-        // Run the Java main class with Java 17 bytecode support
+      const jars = [
+        'BoardDemo.jar',
+        'libs/slf4j-api-1.7.36.jar',
+        'libs/slf4j-simple-1.7.36.jar',
+        'libs/Java-WebSocket-1.5.3.jar'
+      ];
+
+      try {
+        await cheerpjPreloadJars(jars);
         cjRunMain('com.minedev.Main', jars);
       } catch (e) {
-        console.error('Failed to launch BoardDemo:', e);
+        console.error('CheerpJ launch error:', e);
+        document.body.innerHTML += `<p style="color:red;">Failed to launch: ${e.message}</p>`;
       }
     });
   </script>
+
+  <!-- Optional: Dummy favicon to suppress 404 -->
+  <link rel="icon" href="data:;base64,=">
 </body>
 </html>
